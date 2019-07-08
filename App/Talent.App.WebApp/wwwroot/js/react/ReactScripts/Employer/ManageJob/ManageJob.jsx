@@ -75,8 +75,12 @@ export default class ManageJob extends React.Component {
             headers: {
                 'authorization': 'bearer ' + cookies,
                 'content-type': 'application/json'
+            },
+            data: {
+                sortbyDate: this.state.sortby.date, showActive: this.state.filter.showActive, showClosed:
+                    this.state.filter.showClosed
             }
-        }).then(response => {
+            }).then(response => {
 
             console.log("GetJobDetails:", response);
             this.setState({
@@ -106,12 +110,10 @@ export default class ManageJob extends React.Component {
 
     }
 
-    onChangedropdown() {
-        event.preventDefault();
-        console.log(this.state.date);
-        this.setstate({
-            loadJobs : this.state.date
-        })
+    onChangedropdown(e, { value, name }) {
+                    console.log(e);            this.state.sortBy[name] = value;            this.loadNewData({ sortBy: this.state.sortBy });        
+            
+        
     }
 
 
@@ -240,7 +242,7 @@ export default class ManageJob extends React.Component {
                             <span className="text"><strong>Choose filter</strong></span>
                             <i className="dropdown icon"></i>
                             <div className="menu" >
-                                <div  key='1' className="item" onSelect={this.onChangedropdown} >Newest First</div>
+                                <div  key='1' className="item" name ="date" onSelect={this.onChangedropdown} >Newest First</div>
                                 <div  className="item" key='2'>Oldest First</div>
                           
                             </div>
